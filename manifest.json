@@ -1,0 +1,54 @@
+{
+  "name": "mogupan-downloader",
+  "author": "yal52810",
+  "title": "蘑菇云直链下载",
+  "description": "蘑菇云盘下载助手：直链自动附加 Referer 防盗链头，分享链接调用解析 API 获取新鲜直链。支持手机和电脑。",
+  "version": "1.0.0",
+  "homepage": "https://github.com/yal52810/gopeed-extension-mogupan",
+  "repository": "https://github.com/yal52810/gopeed-extension-mogupan",
+  "icon": "",
+  "scripts": [
+    {
+      "event": "onResolve",
+      "match": {
+        "urls": [
+          "*://vipxz*.cainiu.xyz/*",
+          "*://*.cainiu.xyz/*",
+          "*://*.moguwp.com/file/*",
+          "*://*.mogupan.net/file/*"
+        ]
+      },
+      "entry": "index.js"
+    }
+  ],
+  "settings": [
+    {
+      "name": "parse_api",
+      "title": "解析 API 地址",
+      "description": "解析服务地址，例如 http://8.133.160.188:3500",
+      "type": "string",
+      "value": "http://8.133.160.188:3500"
+    },
+    {
+      "name": "card",
+      "title": "卡号",
+      "description": "解析分享链接时使用的点卡卡号（留空则仅支持直链模式）",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "referer",
+      "title": "Referer",
+      "description": "防盗链 Referer 头，默认 https://moguwp.com/",
+      "type": "string",
+      "value": "https://moguwp.com/"
+    },
+    {
+      "name": "ua",
+      "title": "User-Agent",
+      "description": "下载请求的 User-Agent，一般无需修改",
+      "type": "string",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    }
+  ]
+}
