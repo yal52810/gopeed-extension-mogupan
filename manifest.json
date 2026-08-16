@@ -3,7 +3,7 @@
   "author": "yal52810",
   "title": "蘑菇云直链下载",
   "description": "蘑菇云盘下载助手：直链自动附加 Referer 防盗链头，分享链接调用解析 API 获取新鲜直链。支持手机和电脑。",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/yal52810/gopeed-extension-mogupan",
   "repository": {
     "url": "https://github.com/yal52810/gopeed-extension-mogupan"
@@ -17,7 +17,9 @@
           "*://vipxz*.cainiu.xyz/*",
           "*://*.cainiu.xyz/*",
           "*://*.moguwp.com/file/*",
-          "*://*.mogupan.net/file/*"
+          "*://moguwp.com/file/*",
+          "*://*.mogupan.net/file/*",
+          "*://mogupan.net/file/*"
         ]
       },
       "entry": "index.js"
