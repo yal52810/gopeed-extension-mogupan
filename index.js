@@ -101,7 +101,7 @@
         throw new MessageError('解析服务响应异常');
       }
       if (!data || !data.success || !data.download_url) {
-        throw new MessageError('解析失败: ' + (data && data.error ? data.error : '未知错误'));
+        throw new MessageError((data && data.error) ? data.error : '解析失败: 未知错误');
       }
 
       var dl = data.download_url;
