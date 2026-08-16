@@ -1,6 +1,18 @@
 (function () {
   var DEFAULT_REFERER = 'https://moguwp.com/';
   var DEFAULT_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+  var DEFAULT_SERVER = 'https://pan.f11.yoga';
+
+  var RELAY_HOSTS = [
+    { host: 'pan.f11.yoga' },
+    { host: 'dl.f11.yoga' },
+    { host: 'pan2.f11.yoga' },
+    { host: 'dl2.f11.yoga' },
+    { host: 'localhost', ports: [3000, 3200, 3500] },
+    { host: '127.0.0.1', ports: [3000, 3200, 3500] },
+    { host: '8.133.160.188' }
+  ];
+  var RELAY_PATHS = ['/api/download/', '/dl/', '/r2/', '/stream/'];
 
   function setting(name, fallback) {
     try {
@@ -14,6 +26,34 @@
 
   function isCainiu(url) {
     return url.indexOf('cainiu.xyz') !== -1;
+  }
+
+  function isShareLink(url) {
+    return url.indexOf('moguwp.com') !== -1 || url.indexOf('mogupan.net') !== -1;
+  }
+
+  // 识别自有服务器的中转下载链接 (正则解析 host:port + path, 兼容 GoPeed JS 运行时)
+  function isRelayUrl(url) {
+    var m = /^https?:\/\/([^\/]+)(\/[^?#]*)?/i.exec(url);
+    if (!m) return false;
+    var hostPort = m[1].toLowerCase();
+    var path = m[2] || '/';
+    var host = hostPort, port = '';
+    var c = hostPort.lastIndexOf(':');
+    if (c !== -1) {
+      host = hostPort.substring(0, c);
+      port = hostPort.substring(c + 1);
+    }
+    for (var i = 0; i < RELAY_HOSTS.length; i++) {
+      var h = RELAY_HOSTS[i];
+      if (h.host !== host) continue;
+      if (h.ports && h.ports.indexOf(parseInt(port, 10)) === -1) continue;
+      for (var j = 0; j < RELAY_PATHS.length; j++) {
+        if (path.indexOf(RELAY_PATHS[j]) === 0) return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   function parseFilename(cd) {
@@ -36,7 +76,7 @@
     return '';
   }
 
-  // 直链模式: 先 HEAD 拿真实文件名和大小 (dl.php 支持 HEAD + Referer)
+  // 先 HEAD 拿真实文件名和大小 (失败降级为空, 不影响下载)
   function headInfo(url, headers) {
     return fetch(url, { method: 'HEAD', headers: headers, redirect: 'follow' }).then(function (resp) {
       var name = '';
@@ -57,14 +97,12 @@
 
   gopeed.events.onResolve(async function (ctx) {
     var url = ctx.req.url;
-    var referer = setting('referer', DEFAULT_REFERER);
-    var ua = setting('ua', DEFAULT_UA);
-    var header = { 'Referer': referer, 'User-Agent': ua };
 
-    // ── 直链模式: vipxz*.cainiu.xyz/dl.php?xxx ──
+    // ── 直链: CDN 原始链接, 附加防盗链头 ──
     if (isCainiu(url)) {
+      var header = { 'Referer': DEFAULT_REFERER, 'User-Agent': DEFAULT_UA };
       var info = await headInfo(url, header);
-      var directName = info.name || ('mogupan-' + Date.now());
+      var directName = info.name || ('jisupan-' + Date.now());
       ctx.res = {
         name: directName,
         files: [{
@@ -76,51 +114,27 @@
       return;
     }
 
-    // ── 分享链接模式: moguwp.com / mogupan.net 的 /file/ 链接 ──
-    if (url.indexOf('moguwp.com') !== -1 || url.indexOf('mogupan.net') !== -1) {
-      var api = setting('parse_api', '');
-      var card = setting('card', '');
-      if (!api) throw new MessageError('未配置解析 API 地址，请在扩展设置中填写');
-      if (!card) throw new MessageError('未配置卡号，请在扩展设置中填写');
-
-      var resp;
-      try {
-        resp = await fetch(api.replace(/\/+$/, '') + '/api/user/parse', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: card, url: url })
-        });
-      } catch (e) {
-        throw new MessageError('解析服务不可达: ' + api);
-      }
-
-      var data;
-      try {
-        data = await resp.json();
-      } catch (e) {
-        throw new MessageError('解析服务响应异常');
-      }
-      if (!data || !data.success || !data.download_url) {
-        throw new MessageError((data && data.error) ? data.error : '解析失败: 未知错误');
-      }
-
-      var dl = data.download_url;
-      // 服务器返回的中转链接可能是相对路径
-      if (dl.charAt(0) === '/') {
-        dl = api.replace(/\/+$/, '') + dl;
-      }
-      var shareName = data.filename || ('mogupan-' + Date.now());
-      var file = {
-        name: shareName,
-        size: data.fileSize || 0,
-        req: { url: dl, extra: {} }
+    // ── 中转链接: 服务端已注入防盗链头, 客户端透传 ──
+    if (isRelayUrl(url)) {
+      var rinfo = await headInfo(url, { 'User-Agent': DEFAULT_UA });
+      var rname = rinfo.name || 'download';
+      ctx.res = {
+        name: rname,
+        files: [{
+          name: rname,
+          size: rinfo.size,
+          req: { url: url, extra: {} }
+        }]
       };
-      // 原始 CDN 直链需要附加防盗链头; 中转链接由服务器代发, 不需要
-      if (isCainiu(dl)) {
-        file.req.extra.header = header;
-      }
-      ctx.res = { name: shareName, files: [file] };
       return;
     }
+
+    // ── 分享链接: 引导到解析页 ──
+    if (isShareLink(url)) {
+      var server = setting('server', DEFAULT_SERVER).replace(/\/+$/, '');
+      throw new MessageError('分享链接请在解析页解析后一键推送下载：' + server + '/jisupan.html');
+    }
+
+    // 其他链接: 不处理, 交给 GoPeed 内置解析
   });
 })();

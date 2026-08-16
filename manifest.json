@@ -1,9 +1,9 @@
 {
-  "name": "mogupan-downloader",
+  "name": "jisupan-downloader",
   "author": "yal52810",
-  "title": "蘑菇云直链下载",
-  "description": "蘑菇云盘下载助手：直链自动附加 Referer 防盗链头，分享链接调用解析 API 获取新鲜直链。支持手机和电脑。",
-  "version": "1.0.1",
+  "title": "极速盘下载插件",
+  "description": "极速盘下载插件：直链自动附加防盗链请求头高速下载；分享链接请到解析页一键推送到 GoPeed。",
+  "version": "2.0.0",
   "homepage": "https://github.com/yal52810/gopeed-extension-mogupan",
   "repository": {
     "url": "https://github.com/yal52810/gopeed-extension-mogupan"
@@ -19,7 +19,18 @@
           "*://*.moguwp.com/file/*",
           "*://moguwp.com/file/*",
           "*://*.mogupan.net/file/*",
-          "*://mogupan.net/file/*"
+          "*://mogupan.net/file/*",
+          "*://pan.f11.yoga/*",
+          "*://dl.f11.yoga/*",
+          "*://pan2.f11.yoga/*",
+          "*://dl2.f11.yoga/*",
+          "*://localhost:3000/*",
+          "*://localhost:3200/*",
+          "*://localhost:3500/*",
+          "*://127.0.0.1:3000/*",
+          "*://127.0.0.1:3200/*",
+          "*://127.0.0.1:3500/*",
+          "*://8.133.160.188/*"
         ]
       },
       "entry": "index.js"
@@ -27,32 +38,11 @@
   ],
   "settings": [
     {
-      "name": "parse_api",
-      "title": "解析 API 地址",
-      "description": "解析服务地址，例如 http://8.133.160.188:3500",
+      "name": "server",
+      "title": "服务器地址",
+      "description": "解析页地址，例如 https://pan.f11.yoga。分享链接请在解析页解析后一键推送下载。",
       "type": "string",
-      "value": "http://8.133.160.188:3500"
-    },
-    {
-      "name": "card",
-      "title": "卡号",
-      "description": "解析分享链接时使用的点卡卡号（留空则仅支持直链模式）",
-      "type": "string",
-      "value": ""
-    },
-    {
-      "name": "referer",
-      "title": "Referer",
-      "description": "防盗链 Referer 头，默认 https://moguwp.com/",
-      "type": "string",
-      "value": "https://moguwp.com/"
-    },
-    {
-      "name": "ua",
-      "title": "User-Agent",
-      "description": "下载请求的 User-Agent，一般无需修改",
-      "type": "string",
-      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+      "value": "https://pan.f11.yoga"
     }
   ]
 }
