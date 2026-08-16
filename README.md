@@ -11,15 +11,15 @@
 
 ## 安装
 
-方式一（推荐，国内可用）：GoPeed → 扩展 → ➕ → 安装 → 输入 Gitee 仓库地址：
+方式一（推荐，国内可用）：GoPeed → 扩展 → ➕ → 安装 → 输入极狐 GitLab 仓库地址：
 
 ```
-https://gitee.com/<你的用户名>/gopeed-extension-jisupan
+https://jihulab.com/yal52810/gopeed-extension-jisupan
 ```
 
 方式二（开发者）：GoPeed → 扩展 → ➕ → 安装 → 选择本地目录，选中本项目文件夹。
 
-方式三（手动包）：Gitee 不可用时下载 zip 解压后按方式二选择解压目录：
+方式三（手动包）：极狐不可用时下载 zip 解压后按方式二选择解压目录：
 
 ```
 https://pan.f11.yoga/dist/jisupan-extension-v2.0.0.zip
@@ -53,4 +53,4 @@ https://pan.f11.yoga/dist/jisupan-extension-v2.0.0.zip
 ## 说明
 
 - 本扩展不内置任何卡号、令牌等凭证，解析计费在解析页完成。
-- 分发以 Gitee 为主（国内访问稳定），GitHub 仓库 `github.com/yal52810/gopeed-extension-mogupan` 作为备份镜像。
+- 分发以极狐 GitLab 为主（国内访问稳定），GitHub 仓库 `github.com/yal52810/gopeed-extension-mogupan` 作为备份镜像。

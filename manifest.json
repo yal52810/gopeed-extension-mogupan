@@ -4,9 +4,9 @@
   "title": "极速盘下载插件",
   "description": "极速盘下载插件：直链自动附加防盗链请求头高速下载；分享链接请到解析页一键推送到 GoPeed。",
   "version": "2.0.0",
-  "homepage": "https://github.com/yal52810/gopeed-extension-mogupan",
+  "homepage": "https://jihulab.com/yal52810/gopeed-extension-jisupan",
   "repository": {
-    "url": "https://github.com/yal52810/gopeed-extension-mogupan"
+    "url": "https://jihulab.com/yal52810/gopeed-extension-jisupan"
   },
   "icon": "",
   "scripts": [
