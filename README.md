@@ -29,7 +29,7 @@ https://pan.f11.yoga/dist/jisupan-extension-v2.0.0.zip
 
 ## 使用流程
 
-1. GoPeed 桌面端：设置 → 高级 → 通讯协议 TCP `127.0.0.1:9999`，重启。
+1. 启动 GoPeed 桌面端（默认通讯端口 `9999`，无需修改任何设置）。
 2. 浏览器打开解析页：`https://pan.f11.yoga/jisupan.html`（电脑建议用 `http://localhost:3000/jisupan.html`，可直连本机 GoPeed）。
 3. 输入卡号（自动验证）和分享链接 → 解析。
 4. 选择下载方式：

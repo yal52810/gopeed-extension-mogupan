@@ -2,7 +2,7 @@
   "name": "jisupan-downloader",
   "author": "yal52810",
   "title": "极速盘下载插件",
-  "description": "极速盘下载插件：直链自动附加防盗链请求头高速下载；分享链接请到解析页一键推送到 GoPeed。",
+  "description": "极速盘下载插件",
   "version": "2.0.0",
   "homepage": "https://jihulab.com/yal52810/gopeed-extension-jisupan",
   "repository": {
@@ -40,7 +40,7 @@
     {
       "name": "server",
       "title": "服务器地址",
-      "description": "解析页地址，例如 https://pan.f11.yoga。分享链接请在解析页解析后一键推送下载。",
+      "description": "极速盘下载插件",
       "type": "string",
       "value": "https://pan.f11.yoga"
     }
