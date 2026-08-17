@@ -27,6 +27,18 @@ https://pan.f11.yoga/dist/jisupan-extension-v2.0.0.zip
 
 > 本扩展 name 为 `jisupan-downloader`，与旧版扩展不是同一个扩展 ID，**旧扩展需手动卸载**。
 
+## 下载器安装包
+
+本仓库 `installer/` 目录内置 GoPeed 桌面端安装包（与解析页「下载器」教程页同源），三端下载直链：
+
+| 平台 | 文件 | 直链 |
+|---|---|---|
+| Windows | `Gopeed-v1.9.3-windows-amd64.exe` | `https://jihulab.com/yal52810/gopeed-extension-mogupan/-/raw/main/installer/Gopeed-v1.9.3-windows-amd64.exe` |
+| Android | `Gopeed-v1.9.3-android.apk` | `https://jihulab.com/yal52810/gopeed-extension-mogupan/-/raw/main/installer/Gopeed-v1.9.3-android.apk` |
+| macOS | `Gopeed-v1.9.3-macos.dmg` | `https://jihulab.com/yal52810/gopeed-extension-mogupan/-/raw/main/installer/Gopeed-v1.9.3-macos.dmg` |
+
+> GoPeed 官网文档：<https://docs.gopeed.com/>；如上述直链失效，也可到项目官方 GitHub Releases 获取新版本。
+
 ## 使用流程
 
 1. 启动 GoPeed 桌面端（默认通讯端口 `9999`，无需修改任何设置）。
